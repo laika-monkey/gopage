@@ -1,46 +1,26 @@
 package main
 
 import (
-//	"golang.org/x/oauth2/fitbit"
+	//	"golang.org/x/oauth2/fitbit"
 	"golang.org/x/oauth2"
 	"io"
-	"io/ioutil"
 	"net/http"
-//	"context"
+	//	"context"
 	"fmt"
-	"gopkg.in/yaml.v2"
-	"log"
+	"github.com/larkaen/gopage/client"
 )
-
-type Secrets struct {
-	ClientID     string `yaml:"ClientID"`
-	ClientSecret string `yaml:"ClientSecret"`
-}
-
-// read in secrets
-func (s *Secrets) getSecrets() *Secrets {
-	yamlHandle, err := ioutil.ReadFile("server.yaml")
-	if err != nil {
-		log.Printf("server.yaml err #%v ", err)
-	}
-
-	err = yaml.Unmarshal(yamlHandle, s)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-
-	return s
-}
 
 // hello performs initial personal authentication
 func hello(w http.ResponseWriter, r *http.Request) {
 	//	ctx := context.Background()
-	var secrets Secrets
-	secrets.getSecrets()
+
+	// define client object
+	appinfo := &client.Client{}
+	client.LoadClientId(appinfo)
 
 	conf := &oauth2.Config{
-		ClientID:     secrets.ClientID,
-		ClientSecret: secrets.ClientSecret,
+		ClientID:     appinfo.ClientID,
+		ClientSecret: appinfo.ClientSecret,
 		Scopes: []string{"activity", "heartrate", "location", "nutrition",
 			"profile", "settings", "sleep", "social", "weight"},
 		Endpoint: oauth2.Endpoint{
@@ -53,6 +33,8 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<a href='%v'>Link</a>", url)
 	//	io.WriteString(w, "Hello world!")
 	//	fmt.Fprintf(w, "Visit"
+	fmt.Printf(appinfo.ClientID)
+	fmt.Printf(appinfo.ClientSecret)
 }
 
 // meat of the test privacy violating page
