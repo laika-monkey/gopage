@@ -1,11 +1,9 @@
 package main
 
 import (
-	//	"golang.org/x/oauth2/fitbit"
 	"golang.org/x/oauth2"
 	"io"
 	"net/http"
-	//	"context"
 	"fmt"
 	"github.com/larkaen/gopage/client"
 )
@@ -33,13 +31,19 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<a href='%v'>Link</a>", url)
 	//	io.WriteString(w, "Hello world!")
 	//	fmt.Fprintf(w, "Visit"
-	fmt.Printf(appinfo.ClientID)
-	fmt.Printf(appinfo.ClientSecret)
+	//  fmt.Printf(appinfo.ClientID)
+	//  fmt.Printf(appinfo.ClientSecret)
 }
 
 // meat of the test privacy violating page
 func walter(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Landing Page")
+/* 
+Make this a page that graphs up the db, but make the actual db pulling
+elsewhere
+
+*/
+
 }
 
 func main() {
